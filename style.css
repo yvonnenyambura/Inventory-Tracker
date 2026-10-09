@@ -37,3 +37,45 @@ button {
     border-radius: 4px;
     cursor: pointer;
 }
+
+section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+#total-added, #total-sold, #current-stock {
+    font-weight: bold;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.filter-btn {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0;
+    text-align: left;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    th, td {
+    padding: 4px;
+    font-size: 14px;
+}
+}
