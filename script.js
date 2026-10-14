@@ -12,11 +12,17 @@ let totalSold = document.getElementById('total-sold');
 let currentStock = document.getElementById('current-stock');
 
 function displayStockLog() {
+    entriesBody.innerHTML = '';
     for (let record of stockLog) {
-        console.log(`ID: ${record.id}, Name: ${record.name}, Quantity: ${record.quantity}, Category: ${record.category}, Type: ${record.type}`);
+    entriesBody.innerHTML += `<tr> <td>${record.name}</td> <td>${record.category}</td> <td>${record.quantity}</td> <td>${record.type}</td><td><button onclick="deleteEntry(${record.id})">Delete</button></td>
+</tr>`;
     }
 }
-
+function deleteEntry(id) {
+    console.log(id);
+    stockLog = stockLog.filter(record => record.id !== id);
+    displayStockLog();
+}
 entryForm.addEventListener('submit', function(event) {
     event.preventDefault();
     let nameValue = itemName.value;
