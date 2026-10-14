@@ -1,4 +1,4 @@
-let entries = [];
+let stockLog = [];
 
 let entryForm = document.getElementById('entry-form');
 let itemName = document.getElementById('item-name');
@@ -11,6 +11,12 @@ let totalAdded = document.getElementById('total-added');
 let totalSold = document.getElementById('total-sold');
 let currentStock = document.getElementById('current-stock');
 
+function displayStockLog() {
+    for (let record of stockLog) {
+        console.log(`ID: ${record.id}, Name: ${record.name}, Quantity: ${record.quantity}, Category: ${record.category}, Type: ${record.type}`);
+    }
+}
+
 entryForm.addEventListener('submit', function(event) {
     event.preventDefault();
     let nameValue = itemName.value;
@@ -18,9 +24,15 @@ entryForm.addEventListener('submit', function(event) {
     let categoryValue = category.value;
     let typeValue = type.value;
 
-    console.log("Form Submitted");
-    console.log("Item Name:", nameValue);
-    console.log("Quantity:", quantityValue);
-    console.log("Category:", categoryValue);
-    console.log("Type:", typeValue);
+    let record = {
+        id: Date.now(),
+        name: nameValue,
+        quantity: parseInt(quantityValue),
+        category: categoryValue,
+        type: typeValue
+    };
+
+    stockLog.push(record);
+
+    displayStockLog();
 });
