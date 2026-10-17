@@ -22,7 +22,24 @@ function deleteEntry(id) {
     console.log(id);
     stockLog = stockLog.filter(record => record.id !== id);
     displayStockLog();
+    updateTotals();
 }
+
+function updateTotals() {
+    let added = 0;
+    let sold = 0;
+    for (let record of stockLog) {
+        if (record.type === 'added') {
+            added += record.quantity;
+        } else if (record.type === 'sold') {
+            sold += record.quantity;
+        }
+    }
+    totalAdded.textContent = added;
+    totalSold.textContent = sold;
+    currentStock.textContent = added - sold;
+}
+
 entryForm.addEventListener('submit', function(event) {
     event.preventDefault();
     let nameValue = itemName.value;
@@ -41,4 +58,6 @@ entryForm.addEventListener('submit', function(event) {
     stockLog.push(record);
 
     displayStockLog();
+    updateTotals();
+    entryForm.reset();
 });
