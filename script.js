@@ -38,6 +38,7 @@ function deleteEntry(id) {
     stockLog = stockLog.filter(record => record.id !== id);
     displayStockLog();
     updateTotals();
+    saveStockLog();
 }
 
 function updateTotals() {
@@ -54,6 +55,26 @@ function updateTotals() {
     totalSold.textContent = sold;
     currentStock.textContent = added - sold;
 }
+
+function saveStockLog() {
+    document.cookie = "stockLog=" + encodeURIComponent(JSON.stringify(stockLog)) + "; max-age=31536000; path=/";
+}
+
+function getCookie(name) {
+    let found = document.cookie.split('; ').find(item => item.startsWith(name + '='));
+    if (found) {
+        return found.split('=')[1];
+    }
+    return null;
+}
+
+function loadStockLog() {
+    let cookieValue = getCookie('stockLog');
+    if (cookieValue) {
+        stockLog = JSON.parse(decodeURIComponent(cookieValue));
+    }
+}
+
 
 entryForm.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -75,6 +96,7 @@ entryForm.addEventListener('submit', function(event) {
     displayStockLog();
     updateTotals();
     entryForm.reset();
+    saveStockLog();
 });
 
 
@@ -92,4 +114,8 @@ filterSold.addEventListener('click', function() {
     currentFilter = 'sold';
     displayStockLog();
 });
+
+loadStockLog();
+displayStockLog();
+updateTotals();
  
