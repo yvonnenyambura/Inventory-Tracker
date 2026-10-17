@@ -22,6 +22,14 @@ let filterSold = document.getElementById('filter-sold');
 // Which records the table shows
 let currentFilter = 'all';
 
+// Turns stored category values into readable names
+let categoryNames = {
+    'eau-de-parfum': 'Eau de Parfum',
+    'eau-de-toilette': 'Eau de Toilette',
+    'body-mist': 'Body Mist',
+    'body-oil': 'Body Oil'
+};
+
 // Show only records that match the current filter
 function displayStockLog() {
     entriesBody.innerHTML = '';
@@ -30,16 +38,15 @@ function displayStockLog() {
             entriesBody.innerHTML += `
     <tr>
         <td>${record.name}</td>
-        <td>${record.category}</td>
+        <td>${categoryNames[record.category]}</td>
         <td>${record.quantity}</td>
-        <td>${record.type}</td>
-        <td><button onclick="deleteEntry(${record.id})">Delete</button></td>
+        <td><span class="badge ${record.type}">${record.type}</span></td>
+        <td><button onclick="deleteEntry(${record.id})" aria-label="Delete entry"><i class="fa-regular fa-trash-can"></i></button></td>
     </tr>
 `;
         }
     }
 }
-
 // Removes the record, then refreshes the page and cookie
 function deleteEntry(id) {
     stockLog = stockLog.filter(record => record.id !== id);
@@ -114,17 +121,28 @@ entryForm.addEventListener('submit', function(event) {
 filterAll.addEventListener('click', function() {
     currentFilter = 'all';
     displayStockLog();
+    setActiveFilter(filterAll);
 });
 
 filterAdded.addEventListener('click', function() {
     currentFilter = 'added';
     displayStockLog();
+    setActiveFilter(filterAdded);
 });
 
 filterSold.addEventListener('click', function() {
     currentFilter = 'sold';
     displayStockLog();
+    setActiveFilter(filterSold);
 });
+
+// Highlights the clicked filter button and clears the others
+function setActiveFilter(clickedButton) {
+    filterAll.classList.remove('active');
+    filterAdded.classList.remove('active');
+    filterSold.classList.remove('active');
+    clickedButton.classList.add('active');
+}
 
 // On page load: restore saved records, then draw the table and totals
 loadStockLog();
