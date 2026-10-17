@@ -11,15 +11,30 @@ let totalAdded = document.getElementById('total-added');
 let totalSold = document.getElementById('total-sold');
 let currentStock = document.getElementById('current-stock');
 
+let filterAll = document.getElementById('filter-all');
+let filterAdded = document.getElementById('filter-added');
+let filterSold = document.getElementById('filter-sold');
+
+let currentFilter = 'all';
+
 function displayStockLog() {
     entriesBody.innerHTML = '';
     for (let record of stockLog) {
-    entriesBody.innerHTML += `<tr> <td>${record.name}</td> <td>${record.category}</td> <td>${record.quantity}</td> <td>${record.type}</td><td><button onclick="deleteEntry(${record.id})">Delete</button></td>
-</tr>`;
+        if (currentFilter === 'all' || record.type === currentFilter) {
+            entriesBody.innerHTML += `
+    <tr>
+        <td>${record.name}</td>
+        <td>${record.category}</td>
+        <td>${record.quantity}</td>
+        <td>${record.type}</td>
+        <td><button onclick="deleteEntry(${record.id})">Delete</button></td>
+    </tr>
+`;
+        }
     }
 }
+
 function deleteEntry(id) {
-    console.log(id);
     stockLog = stockLog.filter(record => record.id !== id);
     displayStockLog();
     updateTotals();
@@ -61,3 +76,20 @@ entryForm.addEventListener('submit', function(event) {
     updateTotals();
     entryForm.reset();
 });
+
+
+filterAll.addEventListener('click', function() {
+    currentFilter = 'all';
+    displayStockLog();
+});
+
+filterAdded.addEventListener('click', function() {
+    currentFilter = 'added';
+    displayStockLog();
+});
+
+filterSold.addEventListener('click', function() {
+    currentFilter = 'sold';
+    displayStockLog();
+});
+ 
